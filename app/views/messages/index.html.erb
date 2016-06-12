@@ -1,13 +1,16 @@
-<h1>Message Board</h1>
-<% @messages.each do |message| %>
-    Name:
-    <%= message.name %>
+<div class="panel panel-default">
+  <div class="panel-heading">
+    Message List
+  </div>
     
-    Message:
-    <%= message.body %>
-    
-    <br>
-<% end %>
+  <div class="panel-body">
+    <% @messages.each do |message| %>
+      <span class="label label-info"><%= message.name %></span>
+      <%= message.body %>
+      <br>
+    <% end %>
+  </div>
+</div>
 
 <%= form_for(@message) do |f| %>
     Name:
@@ -15,6 +18,5 @@
     
     Message:
     <%= f.text_field :body %>
-    
-    <%= f.submit %>
+    <%= f.submit class: "btn btn-sm btn-primary" %>
 <% end %>
