@@ -6,8 +6,13 @@ class MessagesController < ApplicationController
   
   def create
     @message = Message.new(message_params)
-    @message.save
-    redirect_to root_path , notice: "Your message has been saved"
+    if @message.save
+      redirect_to root_path , notice: "Your message has been saved"
+    else
+      @message = Message.all
+      flash.now[:alert] = "Your message could not be saved"
+      render 'index'
+    end
   end
   
   private
