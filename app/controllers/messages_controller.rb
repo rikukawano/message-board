@@ -1,5 +1,5 @@
 class MessagesController < ApplicationController
-  before_action :set_message, only: [:edit, :update]
+  before_action :set_message, only: [:edit, :update, :delete]
   
   def index
     @message = Message.new
@@ -9,16 +9,36 @@ class MessagesController < ApplicationController
   def create
     @message = Message.new(message_params)
     if @message.save
-      redirect_to root_path , notice: "Your message has been saved"
+      redirect_to root_path , notice: "Message has been saved"
     else
       @messages = Message.all
-      flash.now[:alert] = "Your message could not be saved"
+      flash.now[:alert] = "Message could not be saved"
       render 'index'
     end
   end
   
+  def edit
+  end
+  
+  def update
+    if @message.update(message_params)
+      redirect_to root_path, notice: "Message has been edited"
+    else
+      render 'edit'
+    end
+  end
+  
+  def destroy
+    @message.destroy
+    redirect_to root_path, notice: "Message has been deleted"
+  end
+
   private
   def message_params
     params.require(:message).permit(:name, :body)
+  end
+  
+  def set_message
+    @message = Message.find(params[:id])
   end
 end
