@@ -18,9 +18,11 @@ class MessagesController < ApplicationController
   end
   
   def edit
+    @message = Message.find(params[:id])
   end
   
   def update
+    @message = Message.find(params[:id])
     if @message.update(message_params)
       redirect_to root_path, notice: "Message has been edited"
     else
@@ -29,13 +31,14 @@ class MessagesController < ApplicationController
   end
   
   def destroy
+    @message = Message.find(params[:id])
     @message.destroy
     redirect_to root_path, notice: "Message has been deleted"
   end
 
   private
   def message_params
-    params.require(:message).permit(:name, :body)
+    params.require(:message).permit(:name, :body, :age)
   end
   
   def set_message
